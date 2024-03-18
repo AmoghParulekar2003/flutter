@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:amogh/login.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,7 +16,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         primaryColor: Colors.blue,
         hintColor: Colors.blue,
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           color: Colors.blue,
         ),
       ),
@@ -38,18 +41,19 @@ class HomePage extends StatelessWidget {
     // Add more sports as needed
   ];
 
+  HomePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sports Data App'),
+        title: const Text('Sports Data App'),
         actions: [
           TextButton(
             onPressed: () {
-              // Handle login button press
-              // You can navigate to a login page or implement your login logic here
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const MyCustomForm()));
             },
-            child: Text(
+            child: const Text(
               'Login',
               style: TextStyle(color: Colors.white),
             ),
@@ -59,12 +63,17 @@ class HomePage extends StatelessWidget {
       body: ListView.builder(
         itemCount: sportsData.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(sportsData[index].name),
-            leading: CircleAvatar(
-              backgroundImage: AssetImage(sportsData[index].imagePath),
+          return GestureDetector(
+            onTap: () {
+              print('Sport selected: ${sportsData[index].name}');
+            },
+            child: ListTile(
+              title: Text(sportsData[index].name),
+              leading: CircleAvatar(
+                backgroundImage: AssetImage(sportsData[index].imagePath),
+              ),
+              // Add more details or functionality as needed
             ),
-            // Add more details or functionality as needed
           );
         },
       ),

@@ -1,33 +1,7 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    const appTitle = 'Login to the Sports World!!';
-
-    return MaterialApp(
-      title: appTitle,
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(appTitle),
-        ),
-        body: const MyCustomForm(),
-      ),
-    );
-  }
-}
-
-// Create a Form widget.
 class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({super.key});
+  const MyCustomForm({Key? key}) : super(key: key);
 
   @override
   MyCustomFormState createState() {
@@ -40,77 +14,84 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   @override
   Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              // The validator receives the text that the user has entered.
-              decoration: InputDecoration(
-                labelText: "Name",
-                hintText: "Enter your Name",
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Login to the Sports World!!'),
+      ),
+      body: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                // The validator receives the text that the user has entered.
+                decoration: InputDecoration(
+                  labelText: "Name",
+                  hintText: "Enter your Name",
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter your Name: ';
+                  }
+                  return null;
+                },
               ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Enter your Name: ';
-                }
-                return null;
-              },
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              decoration: InputDecoration(
-                labelText: "Mobile Number",
-                hintText: "Enter your Name",
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  labelText: "Mobile Number",
+                  hintText: "Enter your Name",
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter your Mobile Number: ';
+                  }
+                  if (value.length != 10) {
+                    return "Please Enter Correct Digits";
+                  }
+
+                  return null;
+                },
               ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Enter your Mobile Number: ';
-                }
-                if (value.length != 10) {
-                  return "Please Enter Correct Digits";
-                }
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                obscureText: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter your Password ';
+                  }
 
-                return null;
-              },
+                  return null;
+                },
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              obscureText: true,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Enter your Password ';
-                }
-
-                return null;
-              },
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  // Validate returns true if the form is valid, or false otherwise.
+                  if (_formKey.currentState!.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Login Successful'),
+                      ),
+                    );
+                    Navigator.pop(context); // Popping back to the previous route
+                  }
+                },
+                child: const Text('Submit'),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                // Validate returns true if the form is valid, or false otherwise.
-                if (_formKey.currentState!.validate()) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Login Successful')),
-                  );
-                }
-              },
-              child: const Text('Submit'),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
